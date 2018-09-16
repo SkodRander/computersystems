@@ -21,9 +21,11 @@ int derivative(int *highpassFilteredArray)
 	return tmp;
 }
 
-void squaring()
+void squaring(int *derirativeFiltered, int *squared, int sizeOfDerivative)
 {
-
+	for(int i = 0; i<sizeOfDerivative; i++){
+		squared[i] = derirativeFiltered[i]*derirativeFiltered[i];
+	}
 }
 
 int movingWindow(int *squaringFiltered)

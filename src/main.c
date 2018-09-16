@@ -31,6 +31,8 @@ int main()
 	int *pHighFiltered = highFiltered;
 	int sizeOfHighFiltered = sizeof(highFiltered)/sizeof(int);
 
+	int squared[sizeOfDerivative] = {};
+
 	int signal, eofChecker;
 
 
