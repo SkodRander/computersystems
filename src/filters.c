@@ -13,9 +13,10 @@ void highPassFilter()
 
 }
 
-void derirative()
+int derirative(int *highpassFilteredArray)
 {
-
+	int tmp = (2*highpassFilteredArray[0]+highpassFilteredArray[1]-highpassFilteredArray[3]-2*highpassFilteredArray[4])/8;
+	return tmp;
 }
 
 void squaring()
@@ -23,8 +24,14 @@ void squaring()
 
 }
 
-void movingWindow()
+int movingWindow(int *squaringFiltered)
 {
-
+	int temp;
+	int N = 30;
+	for(int i = 0; i < N; i++) {
+		squaringFiltered[0+(N-(i+1))];
+	}
+	temp = temp/N;
+	return temp;
 }
 

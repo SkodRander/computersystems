@@ -23,6 +23,10 @@ int main()
 	int *pLowfiltered = lowfiltered;
 	int sizeOfLowfiltered = sizeof(lowfiltered)/sizeof(int);
 
+	int derivativeFiltered[10] = {};
+	int *pDerivativeFiltered = derivativeFiltered;
+	int sizeOfDerivative = sizeof(derivativeFiltered)/sizeof(int);
+
 	int signal, eofChecker;
 
 
@@ -42,7 +46,12 @@ int main()
 
 		signal = lowPassFilter(pUnfiltered, pLowfiltered);            // Filter Data
 		rotateArrayOnce(pLowfiltered, sizeOfLowfiltered);
-		pLowfiltered[0] = signal;
+		lowfiltered[0] = signal;
+
+		signal = derivative(highFiltered);
+		rotateArrayOnce(pDerivativeFiltered, sizeOfDerivative);
+		derivativeFiltered[0] = signal;
+
 
 		printf("%i\n",signal);
 	}

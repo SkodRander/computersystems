@@ -6,7 +6,7 @@ int lowPassFilter(int *unfilteredArray, int *filteredArray);
 
 // Implement additional filters
 void highPassFilter();
-void derirative();
+int derirative(int *highpassFiltered);
 void squaring();
-void movingWindow();
+int movingWindow(int *squaringFiltered);
 #endif // FILTERS_H

@@ -14,7 +14,7 @@ int getNextData(FILE *file, int* eofChecker)
 
 FILE* openfile(const char* filename)
 {
-	char path[] = "/home/feynman/workspace/assignmentcomp/Datafiles/";
+	char path[] = "./Datafiles/";
 	char *mode = "r";
 	FILE *file = fopen(strcat(path, filename), mode); // Replace NULL with the actual file object
    	return file;

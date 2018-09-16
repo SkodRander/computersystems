@@ -23,19 +23,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: assignmentcomp
+all: computersystems
 
 # Tool invocations
-assignmentcomp: $(OBJS) $(USER_OBJS)
+computersystems: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "assignmentcomp" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc  -o "computersystems" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) assignmentcomp
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) computersystems
 	-@echo ' '
 
 .PHONY: all clean dependents
