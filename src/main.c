@@ -37,7 +37,29 @@ int main()
 	int sizeOfMovingWindow = sizeof(movingWindowFiltered)/sizeof(int);
 
 
-	int signal, eofChecker;
+	int RRInterval[300] = {};
+	int *pRRInterval = RRInterval;
+	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
+	int rCounter = 0;
+	int *pRCounter = rCounter;
+
+
+	int sizeOfPeakArrays = 8;
+
+
+
+	int signal, eofChecker, peakCounter, RPeakCounter;
+
+	struct QRS_params qrsParams;
+
+	qrsParams.SPKF = 0;
+	qrsParams.NPKF = 0;
+	qrsParams.THRESHOLD1 = 0;
+	qrsParams.THRESHOLD2 = 0;
+	qrsParams.
+	qrsParams.1
+
+	QRS_params *pQRS = &qrsParams;
 
 
 	while (1)
@@ -71,6 +93,11 @@ int main()
 		signal = movingWindow(pSquaredFiltered);
 		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
 		pMovingWindowFiltered[0] = signal;
+
+
+
+
+
 
 		printf("%i\n",signal);
 
