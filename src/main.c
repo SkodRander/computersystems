@@ -31,6 +31,14 @@ int main()
 	int *pHighFiltered = highFiltered;
 	int sizeOfHighFiltered = sizeof(highFiltered)/sizeof(int);
 
+	int squaredFiltered[33] = {};
+	int *pSquaredFiltered = squaredFiltered;
+	int sizeOfSquared = sizeof(squaredFiltered)/sizeof(int);
+
+	int movingWindowFiltered[31] = {};
+	int *pMovingWindowFiltered = movingWindowFiltered;
+	int sizeOfMovingWindow = sizeof(movingWindowFiltered)/sizeof(int);
+
 	int signal, eofChecker;
 
 
@@ -59,6 +67,14 @@ int main()
 		signal = derivative(highFiltered);
 		rotateArrayOnce(pDerivativeFiltered, sizeOfDerivative);
 		derivativeFiltered[0] = signal;
+
+		signal = squaring(pDerivativeFiltered);
+		rotateArrayOnce(pSquaredFiltered, sizeOfSquared);
+		pSquaredFiltered[0] = signal;
+
+		signal = movingWindow(pSquaredFiltered);
+		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
+		pMovingWindowFiltered[0] = signal;
 
 
 		printf("%i\n",signal);

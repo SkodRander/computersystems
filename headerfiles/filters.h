@@ -10,7 +10,7 @@ int derivative(int *highpassFiltered);
 
 int highPassFilter(int *lowFilteredArray, int *highFilteredArray);
 
-void squaring();
+int squaring(int *derivativeFiltered);
 
 int movingWindow(int *squaringFiltered);
 #endif // FILTERS_H
