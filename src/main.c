@@ -19,13 +19,17 @@ int main()
 	int *pUnfiltered = unfiltered;
 	int sizeOfUnfiltered = sizeof(unfiltered)/sizeof(int);
 
-	int lowfiltered[4] = {};
+	int lowfiltered[33] = {};
 	int *pLowfiltered = lowfiltered;
 	int sizeOfLowfiltered = sizeof(lowfiltered)/sizeof(int);
 
 	int derivativeFiltered[10] = {};
 	int *pDerivativeFiltered = derivativeFiltered;
 	int sizeOfDerivative = sizeof(derivativeFiltered)/sizeof(int);
+
+	int highFiltered[33] = {};
+	int *pHighFiltered = highFiltered;
+	int sizeOfHighFiltered = sizeof(highFiltered)/sizeof(int);
 
 	int signal, eofChecker;
 
@@ -52,6 +56,10 @@ int main()
 		rotateArrayOnce(pDerivativeFiltered, sizeOfDerivative);
 		derivativeFiltered[0] = signal;
 
+
+		signal = highPassFilter(pLowfiltered,pHighFiltered);
+		rotateArrayOnce(pHighFiltered,sizeOfHighFiltered);
+		pHighFiltered[0] = signal;
 
 		printf("%i\n",signal);
 	}

@@ -8,12 +8,14 @@ int lowPassFilter(int *unfilteredArray, int *filteredArray)
 	return tmp;
 }
 
-void highPassFilter()
+int highPassFilter(int *lowFilteredArray, int *highFilteredArray)
 {
+	int highTmp = highFilteredArray[0]-lowFilteredArray[0]/32+lowFilteredArray[16]-lowFilteredArray[17]+(lowFilteredArray[32])/32;
+	return highTmp;
 
 }
 
-int derirative(int *highpassFilteredArray)
+int derivative(int *highpassFilteredArray)
 {
 	int tmp = (2*highpassFilteredArray[0]+highpassFilteredArray[1]-highpassFilteredArray[3]-2*highpassFilteredArray[4])/8;
 	return tmp;
