@@ -21,6 +21,7 @@ int derivative(int *highpassFilteredArray)
 	return tmp;
 }
 
+
 int squaring(int *derivativeFiltered)
 {
 	int temp;

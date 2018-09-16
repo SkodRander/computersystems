@@ -31,6 +31,7 @@ int main()
 	int *pHighFiltered = highFiltered;
 	int sizeOfHighFiltered = sizeof(highFiltered)/sizeof(int);
 
+<<<<<<< HEAD
 	int squaredFiltered[33] = {};
 	int *pSquaredFiltered = squaredFiltered;
 	int sizeOfSquared = sizeof(squaredFiltered)/sizeof(int);
@@ -38,6 +39,9 @@ int main()
 	int movingWindowFiltered[31] = {};
 	int *pMovingWindowFiltered = movingWindowFiltered;
 	int sizeOfMovingWindow = sizeof(movingWindowFiltered)/sizeof(int);
+=======
+	int squared[sizeOfDerivative] = {};
+>>>>>>> b914375866f2e7394549696f4a25f39478c55f55
 
 	int signal, eofChecker;
 
