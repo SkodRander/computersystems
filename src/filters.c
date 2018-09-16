@@ -8,8 +8,10 @@ int lowPassFilter(int *unfilteredArray, int *filteredArray)
 	return tmp;
 }
 
-void highPassFilter()
+int highPassFilter(int *lowFilteredArray, int *highFilteredArray)
 {
+	int highTmp = highFilteredArray[0]-lowFilteredArray[0]/32+lowFilteredArray[16]-lowFilteredArray[17]+(lowFilteredArray[32])/32;
+	return highTmp;
 
 }
 

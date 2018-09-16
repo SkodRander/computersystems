@@ -19,9 +19,13 @@ int main()
 	int *pUnfiltered = unfiltered;
 	int sizeOfUnfiltered = sizeof(unfiltered)/sizeof(int);
 
-	int lowfiltered[4] = {};
+	int lowfiltered[33] = {};
 	int *pLowfiltered = lowfiltered;
 	int sizeOfLowfiltered = sizeof(lowfiltered)/sizeof(int);
+
+	int highFiltered[33] = {};
+	int *pHighFiltered = highFiltered;
+	int sizeOfHighFiltered = sizeof(highFiltered)/sizeof(int);
 
 	int signal, eofChecker;
 
@@ -43,6 +47,10 @@ int main()
 		signal = lowPassFilter(pUnfiltered, pLowfiltered);            // Filter Data
 		rotateArrayOnce(pLowfiltered, sizeOfLowfiltered);
 		pLowfiltered[0] = signal;
+
+		signal = highPassFilter(pLowfiltered,pHighFiltered);
+		rotateArrayOnce(pHighFiltered,sizeOfHighFiltered);
+		pHighFiltered[0] = signal;
 
 		printf("%i\n",signal);
 	}
