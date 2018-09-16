@@ -39,7 +39,6 @@ int main()
 
 		signal = getNextData(file, &eofChecker);
 
-		printf("%i\n", eofChecker);
 
 		if (eofChecker == EOF){ break;}
 
@@ -52,16 +51,19 @@ int main()
 		rotateArrayOnce(pLowfiltered, sizeOfLowfiltered);
 		lowfiltered[0] = signal;
 
-		signal = derivative(highFiltered);
-		rotateArrayOnce(pDerivativeFiltered, sizeOfDerivative);
-		derivativeFiltered[0] = signal;
-
 
 		signal = highPassFilter(pLowfiltered,pHighFiltered);
 		rotateArrayOnce(pHighFiltered,sizeOfHighFiltered);
 		pHighFiltered[0] = signal;
 
+		signal = derivative(highFiltered);
+		rotateArrayOnce(pDerivativeFiltered, sizeOfDerivative);
+		derivativeFiltered[0] = signal;
+
+
 		printf("%i\n",signal);
+
+
 	}
 
 
