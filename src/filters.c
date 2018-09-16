@@ -22,10 +22,10 @@ int derivative(int *highpassFilteredArray)
 }
 
 
-int squaring(int *derivativeFiltered)
+int squaring(int value)
 {
 	int temp;
-	temp = derivativeFiltered[0]*derivativeFiltered[0];
+	temp = value*value;
 	return temp;
 }
 

@@ -17,17 +17,7 @@ void rotateArrayOnce(int *arraypoint, int sizeOfArray)
 
 }
 
-int isThereAPeak(int *arrayWithPeak) {
-	int result;
-	if (arrayWithPeak[1] > arrayWithPeak[0] && arrayWithPeak[1] > arrayWithPeak[2]) {
-		result = 1;
-	} else {
-		result = 0;
-	}
-
-	return result;
 
 
-}
 
 
