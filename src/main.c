@@ -38,7 +38,7 @@ int main()
 
 
 	int RRInterval[300] = {};
-	int arrayWithPeaks[300] = {};
+	int peakCheckArray[300] = {};
 	int rPeakArray[300] = {};
 	int sizeOfRPeakArray = sizeof(rPeakArray)/sizeof(int);
 	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
@@ -63,7 +63,7 @@ int main()
 	qrsParams.RRIntervalCounter = 0;
 	qrsParams.pRRInterval = RRInterval;
 	qrsParams.sizeOfRRInterval = sizeOfRRInterval;
-	qrsParams.pArrayWithPeak = arrayWithPeaks;
+	qrsParams.pPeakCheckArray= peakCheckArray;
 	qrsParams.sizeOfRRIntervalAll = 8;
 	qrsParams.RRIntervalAllCounter = 0;
 	qrsParams.pRPeakArray = rPeakArray;

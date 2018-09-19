@@ -11,14 +11,14 @@ typedef struct QRS_params
    int NPKF; 
    int THRESHOLD1;
    int THRESHOLD2;
-   int pArrayWithPeak;
-   int pRRInterval;
-   int pRRIntervalAll;
+   int pPeakCheckArray[];
+   int pRRInterval[];
+   int pRRIntervalAll[];
    int sizeOfRRInterval;
    int sizeOfRRIntervalAll;
    int RRIntervalCounter;
    int RRIntervalAllCounter;
-   int pRPeakArray;
+   int pRPeakArray[];
    int sizeOfRPeakArray;
    // Add parameters that are missing
    // or of use to you
