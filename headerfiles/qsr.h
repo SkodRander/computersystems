@@ -22,6 +22,7 @@ typedef struct QRS_params
    int sizeOfAllPeaks;
    int *pRPeakArray;
    int sizeOfRPeakArray;
+   int RRIntervalCounterTotal;
    // Add parameters that are missing
    // or of use to you
    
@@ -39,5 +40,6 @@ void isRRIntervalBetweenLowAndHigh(int rrInterval, int average2,int *result);
 void isRRIntervalLargerThanMiss(int rrInterval, int average, int *result);
 void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, int peak);
 void regularRPeakDetected(QRS_params *params, int peak);
+void searchback(QRS_params *params, int average2);
 
 #endif // QSR_H

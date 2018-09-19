@@ -37,7 +37,7 @@ int main()
 	int sizeOfMovingWindow = sizeof(movingWindowFiltered)/sizeof(int);
 
 
-	int RRInterval[300] = {};
+	int RRInterval[300] = {150, 150, 150, 150, 150, 150, 150, 150};
 	int peakCheckArray[300] = {};
 	int rPeakArray[300] = {};
 	int sizeOfRPeakArray = sizeof(rPeakArray)/sizeof(int);
@@ -60,7 +60,7 @@ int main()
 	QRS_params qrsParams = {
 	.SPKF = 0,
 	.NPKF = 0,
-	.THRESHOLD1 = 0,
+	.THRESHOLD1 =0,
 	.THRESHOLD2 = 0,
 	.RRIntervalCounter = 0,
 	.sizeOfRRInterval = sizeOfRRInterval,
@@ -72,7 +72,8 @@ int main()
 	.pRRIntervalAll = RRIntervalAll,
 	.pPeakCheckArray= movingWindowFiltered,
 	.allPeaks = allPeaks,
-	.sizeOfAllPeaks = sizeOfAllPeaks};
+	.sizeOfAllPeaks = sizeOfAllPeaks,
+	.RRIntervalCounterTotal = 0};
 
 
 
@@ -110,6 +111,7 @@ int main()
 	    peakDetection(&qrsParams); // Perform Peak Detection
 
 	    qrsParams.RRIntervalCounter++;
+	    qrsParams.RRIntervalCounterTotal++;
 
 
 	}
