@@ -109,7 +109,7 @@ int main()
 
 	    peakDetection(&qrsParams); // Perform Peak Detection
 
-
+	    qrsParams.RRIntervalCounter++;
 
 
 	}

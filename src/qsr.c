@@ -18,15 +18,14 @@ void peakDetection(QRS_params *params)
 
 	int average2;
 	calculateAverage2(params->pRRInterval, params->sizeOfRRInterval, &params->THRESHOLD1, &average2);
-	isRRIntervalBetweenLowAndHigh(params->pRRInterval[0], average2, &result);
+	isRRIntervalBetweenLowAndHigh(params->RRIntervalCounter, average2, &result);
 	if (result == 1) {
 		regularRPeakDetected(params, params->pPeakCheckArray[1]);
 		return;
 	}
 
-	isRRIntervalLargerThanMiss(params->pRRInterval[0], average2, &result);
+	isRRIntervalLargerThanMiss(params->RRIntervalCounter, average2, &result);
 	if (result == 0) {return;}
-	printf("test");
 	searchback(params, average2);
 
 
@@ -97,7 +96,7 @@ void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, i
 }
 
 void regularRPeakDetected(QRS_params *params, int peak) {
-	printf("%i\n", peak);
+	printf("%i\t%i\n",params->RRIntervalCounter, peak);
 	rotateArrayOnce(params->pRPeakArray, params->sizeOfRPeakArray);
 	params->pRPeakArray[0] = peak;
 	params->SPKF = 0.125*peak+0.875*(params->SPKF);
@@ -112,6 +111,7 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 void searchback(QRS_params *params, int average2){
 	for (int i = 0; i< params->sizeOfAllPeaks; i++){
 		if (params->allPeaks[i] > params->THRESHOLD2) {
+			printf("%i\t%i\n",params->RRIntervalCounter, params->allPeaks[i]);
 			params->pRPeakArray[0] = params->allPeaks[i];
 			break;
 		}
@@ -122,6 +122,7 @@ void searchback(QRS_params *params, int average2){
 	int average1 = arrayAverage(params->pRRIntervalAll,params->sizeOfRRIntervalAll);
 	params->SPKF = 0.125*params->pRPeakArray[0]+0.875*(params->SPKF);
 	params->THRESHOLD1 = params->NPKF+0.25*(params->SPKF-params->NPKF);
+	params->THRESHOLD2 = params->THRESHOLD1/2;
 
 }
 
