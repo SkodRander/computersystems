@@ -10,4 +10,8 @@
 
 void rotateArrayOnce(int *arraypoint, int sizeOfArray);
 
+void arrayInsert(int *pArray, int sizeOfArray, int *pInsertionValue);
+
+int arrayAverage(int array, int sizeOfArray);
+
 #endif /* ARRAYFUNCTIONS_H_ */

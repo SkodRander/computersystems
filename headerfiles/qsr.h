@@ -20,6 +20,8 @@ typedef struct QRS_params
    int RRIntervalAllCounter;
    int pRPeakArray[];
    int sizeOfRPeakArray;
+   int allPeaks[];
+   int sizeOfAllPeaks;
    // Add parameters that are missing
    // or of use to you
    

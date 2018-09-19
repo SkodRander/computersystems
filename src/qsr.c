@@ -29,8 +29,11 @@ void peakDetection(QRS_params *params)
 
 }
 
-void isThereAPeak(int *peakCheckArray int *result) {
+void isThereAPeak(int *peakCheckArray, int *result, int *allPeaks, int *sizeOfAllPeaks) {
 	if (peakCheckArray[1] > peakCheckArray[0] && peakCheckArray[1] > peakCheckArray[2]) {
+		arrayInsert(allPeaks, sizeOfAllPeaks, peakCheckArray[0]);
+		//rotateArray(allPeaks, sizeOfAllPeaks);
+		//allPeaks[0] = peakCheckArray[1];
 
 		*result = 1;
 	} else {
@@ -75,17 +78,17 @@ void isRRIntervalBetweenLowAndHigh(int rrInterval, int average2,int *result) {
 	if (rrInterval > low && rrInterval < high) {
 		*result = 1;
 	} else {
-		*result = 2;
+		*result = 0;
 	}
 
 }
 
-void isRRIntervalLargerThanMiss(int rrInterval, int average, int *result) {
-	int miss = 1.66*average;
+void isRRIntervalLargerThanMiss(int rrInterval, int average2, int *result) {
+	int miss = 1.66*average2;
 	if (rrInterval > miss) {
 		*result = 1;
 	} else {
-		*result = 2;
+		*result = 0;
 	}
 }
 
@@ -107,8 +110,24 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 
 }
 
-void searchback(QRS_params *params){
-	for (int i = 0; i<sizeOf)
+
+void searchback(QRS_params *params, int average2){
+	for (int i = 0; i< params->sizeOfAllPeaks; i++){
+		if (params->allPeaks[i] > params->THRESHOLD2) {
+			params->pRPeakArray[0] = params->allPeaks[i];
+			break;
+		}
+	}
+	int low = 0.92*(average2);
+	int high = 1.16*(average2);
+	int miss = 1.66*average2;
+	int average1 = arrayAverage(params->pRRIntervalAll,params->sizeOfRRIntervalAll);
+	params->SPKF = 0.125*params->pRPeakArray[0]+0.875*(params->SPKF);
+	params->THRESHOLD1 = params->NPKF+0.25*(params->SPKF-params->NPKF);
+
+
+
+
 
 }
 
