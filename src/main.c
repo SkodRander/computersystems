@@ -44,9 +44,10 @@ int main()
 	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
 	int rCounter = 0;
 	int *pRCounter = rCounter;
+
 	int allPeaks[500] = {};
 	int sizeOfAllPeaks = sizeof(allPeaks)/sizeof(int);
-
+	int RRIntervalAll[300] = {};
 
 
 	int sizeOfPeakArrays = 8;
@@ -56,24 +57,23 @@ int main()
 	int signal, eofChecker, peakCounter, RPeakCounter;
 	int *pSignal = &signal;
 
-	struct QRS_params qrsParams;
+	QRS_params qrsParams = {
+	.SPKF = 0,
+	.NPKF = 0,
+	.THRESHOLD1 = 0,
+	.THRESHOLD2 = 0,
+	.RRIntervalCounter = 0,
+	.sizeOfRRInterval = sizeOfRRInterval,
+	.sizeOfRRIntervalAll = 8,
+	.RRIntervalAllCounter = 0,
+	.pRPeakArray = rPeakArray,
+	.sizeOfRPeakArray = sizeOfRPeakArray,
+	.pRRInterval = RRInterval,
+	.pRRIntervalAll = RRIntervalAll,
+	.pPeakCheckArray= movingWindowFiltered,
+	.allPeaks = allPeaks,
+	.sizeOfAllPeaks = sizeOfAllPeaks};
 
-	qrsParams.SPKF = 0;
-	qrsParams.NPKF = 0;
-	qrsParams.THRESHOLD1 = 0;
-	qrsParams.THRESHOLD2 = 0;
-	qrsParams.RRIntervalCounter = 0;
-	qrsParams.pRRInterval = RRInterval;
-	qrsParams.sizeOfRRInterval = sizeOfRRInterval;
-	qrsParams.pPeakCheckArray= peakCheckArray;
-	qrsParams.sizeOfRRIntervalAll = 8;
-	qrsParams.RRIntervalAllCounter = 0;
-	qrsParams.pRPeakArray = rPeakArray;
-	qrsParams.sizeOfRPeakArray = sizeOfRPeakArray;
-	qrsParams.allPeaks = allPeaks;
-	qrsParams.sizeOfAllPeaks = sizeOfAllPeaks;
-
-	QRS_params *pQRS = &qrsParams;
 
 
 	while (1)
@@ -107,10 +107,8 @@ int main()
 		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
 		pMovingWindowFiltered[0] = signal;
 
-	    peakDetection(&qsr_params); // Perform Peak Detection
+	    peakDetection(&qrsParams); // Perform Peak Detection
 
-		//printf("%i\n",signal);
-		printf("%i\n",allPeaks[0]);
 
 
 

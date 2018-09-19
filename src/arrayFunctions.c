@@ -19,14 +19,14 @@ void rotateArrayOnce(int *arraypoint, int sizeOfArray)
 
 void arrayInsert(int *pArray, int sizeOfArray, int *pInsertionValue) {
 	rotateArrayOnce(pArray,sizeOfArray);
-	pArray[0] = pInsertionValue;
+	pArray[0] = *pInsertionValue;
 
 }
 
-int arrayAverage(int array, sizeOfArray){
+int arrayAverage(int *array, int sizeOfArray){
 	int sum = 0;
 	for (int i = 0; i < sizeOfArray; i++){
-		sum +=array[i];
+		sum += array[i];
 	}
 	int avg = sum/sizeOfArray;
 	return avg;
