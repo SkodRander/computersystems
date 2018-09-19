@@ -39,6 +39,8 @@ int main()
 
 	int RRInterval[300] = {};
 	int arrayWithPeaks[300] = {};
+	int rPeakArray[300] = {};
+	int sizeOfRPeakArray = sizeof(rPeakArray)/sizeof(int);
 	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
 	int rCounter = 0;
 	int *pRCounter = rCounter;
@@ -62,7 +64,10 @@ int main()
 	qrsParams.pRRInterval = RRInterval;
 	qrsParams.sizeOfRRInterval = sizeOfRRInterval;
 	qrsParams.pArrayWithPeak = arrayWithPeaks;
-
+	qrsParams.sizeOfRRIntervalAll = 8;
+	qrsParams.RRIntervalAllCounter = 0;
+	qrsParams.pRPeakArray = rPeakArray;
+	qrsParams.sizeOfRPeakArray = sizeOfRPeakArray;
 
 	QRS_params *pQRS = &qrsParams;
 
@@ -74,7 +79,6 @@ int main()
 
 
 		if (eofChecker == EOF){ break;}
-
 
 		rotateArrayOnce(pUnfiltered,sizeOfUnfiltered);
 		unfiltered[0] = signal;
