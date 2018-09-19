@@ -55,23 +55,21 @@ int main()
 	int signal, eofChecker, peakCounter, RPeakCounter;
 	int *pSignal = &signal;
 
-	struct QRS_params qrsParams = {
-			.SPKF = 0,
-			.NPKF = 0,
-			.THRESHOLD1 = 0,
-			.THRESHOLD2 = 0,
-			.RRIntervalCounter = 0,
-			.sizeOfRRInterval = sizeOfRRInterval,
-			.pPeakCheckArray= peakCheckArray,
-			.sizeOfRRIntervalAll = 8,
-			.RRIntervalAllCounter = 0,
-			.pRPeakArray = rPeakArray,
-			.sizeOfRPeakArray = sizeOfRPeakArray,
-			.pRRInterval = RRInterval,
-			.pRRIntervalAll = RRIntervalAll};
+	QRS_params qrsParams = {
+	.SPKF = 0,
+	.NPKF = 0,
+	.THRESHOLD1 = 0,
+	.THRESHOLD2 = 0,
+	.RRIntervalCounter = 0,
+	.sizeOfRRInterval = sizeOfRRInterval,
+	.sizeOfRRIntervalAll = 8,
+	.RRIntervalAllCounter = 0,
+	.pRPeakArray = rPeakArray,
+	.sizeOfRPeakArray = sizeOfRPeakArray,
+	.pRRInterval = RRInterval,
+	.pRRIntervalAll = RRIntervalAll,
+	.pPeakCheckArray= movingWindowFiltered};
 
-
-	QRS_params *pQRS = &qrsParams;
 
 
 	while (1)
@@ -105,7 +103,7 @@ int main()
 		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
 		pMovingWindowFiltered[0] = signal;
 
-	    peakDetection(&qsr_params); // Perform Peak Detection
+	    peakDetection(&qrsParams); // Perform Peak Detection
 
 
 
