@@ -41,5 +41,6 @@ void isRRIntervalLargerThanMiss(int rrInterval, int average, int *result);
 void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, int peak);
 void regularRPeakDetected(QRS_params *params, int peak);
 void searchback(QRS_params *params, int average2);
+void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll);
 
 #endif // QSR_H

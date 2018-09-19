@@ -94,6 +94,25 @@ void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, i
 	*NPKF = 0.125*peak+0.875*(*NPKF);
 }
 
+void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll){
+	double pulse = 0.0;
+	for (int i = 0; i < sizeOfRRIntervalAll; i++) {
+		printf("%d skooood \n", pRRIntervalAll[i]);
+		pulse += (double) pRRIntervalAll[i];
+
+	}
+	printf("%f", pulse);
+	pulse = pulse/250.0;
+	//if (pulse == 0.0){printf("Pulse is 0"); return;}
+	pulse = 8.0/pulse;
+	pulse = pulse*60.0;
+	printf("\tPulse: %f", pulse);
+
+
+
+
+}
+
 void regularRPeakDetected(QRS_params *params, int peak) {
 	rotateArrayOnce(params->pRPeakArray, params->sizeOfRPeakArray);
 	params->pRPeakArray[0] = peak;
@@ -102,7 +121,9 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &params->RRIntervalAllCounter);
 	params->THRESHOLD1 = params->NPKF + 0.25*(params->SPKF-params->NPKF);
 	params->THRESHOLD2 = (params->THRESHOLD1)/2;
-	printf("%i\t%i\n",params->RRIntervalCounterTotal, peak);
+	printf("%i\t%i",params->RRIntervalCounterTotal, peak);
+	getPulse(params->pRRIntervalAll, params->sizeOfRRIntervalAll);
+	printf("\n");
 
 }
 
@@ -111,8 +132,10 @@ void searchback(QRS_params *params, int average2){
 	for (int i = 0; i< params->sizeOfAllPeaks; i++){
 		if (params->allPeaks[i] > params->THRESHOLD2) {
 			printf("%i\t%i\n",params->RRIntervalCounterTotal, params->allPeaks[i]);
+			getPulse(params->pRRIntervalAll, params->sizeOfRRIntervalAll);
 			rotateArrayOnce(params->pRPeakArray,params->sizeOfRPeakArray);
 			params->pRPeakArray[0] = params->allPeaks[i];
+			printf("\n");
 			break;
 		}
 	}
