@@ -38,10 +38,11 @@ int main()
 
 
 	int RRInterval[300] = {};
-	int *pRRInterval = RRInterval;
+	int arrayWithPeaks[300] = {};
 	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
 	int rCounter = 0;
 	int *pRCounter = rCounter;
+
 
 
 	int sizeOfPeakArrays = 8;
@@ -49,6 +50,7 @@ int main()
 
 
 	int signal, eofChecker, peakCounter, RPeakCounter;
+	int *pSignal = &signal;
 
 	struct QRS_params qrsParams;
 
@@ -56,8 +58,11 @@ int main()
 	qrsParams.NPKF = 0;
 	qrsParams.THRESHOLD1 = 0;
 	qrsParams.THRESHOLD2 = 0;
-	qrsParams.
-	qrsParams.1
+	qrsParams.RRIntervalCounter = 0;
+	qrsParams.pRRInterval = RRInterval;
+	qrsParams.sizeOfRRInterval = sizeOfRRInterval;
+	qrsParams.pArrayWithPeak = arrayWithPeaks;
+
 
 	QRS_params *pQRS = &qrsParams;
 
@@ -75,18 +80,18 @@ int main()
 		unfiltered[0] = signal;
 
 
-		signal = lowPassFilter(pUnfiltered, pLowfiltered);            // Filter Data
+		lowPassFilter(pUnfiltered, pLowfiltered, pSignal);            // Filter Data
 		rotateArrayOnce(pLowfiltered, sizeOfLowfiltered);
 		lowfiltered[0] = signal;
 
 
-		signal = highPassFilter(pLowfiltered,pHighFiltered);
+		highPassFilter(pLowfiltered,pHighFiltered, pSignal);
 		rotateArrayOnce(pHighFiltered,sizeOfHighFiltered);
 		pHighFiltered[0] = signal;
 
-		signal = derivative(highFiltered);
+		derivative(highFiltered, pSignal);
 
-		signal = squaring(signal);
+		squaring(signal, pSignal);
 		rotateArrayOnce(pSquaredFiltered, sizeOfSquared);
 		pSquaredFiltered[0] = signal;
 
@@ -94,14 +99,7 @@ int main()
 		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
 		pMovingWindowFiltered[0] = signal;
 
-
-
-
-
-
 		printf("%i\n",signal);
-
-
 
 
 

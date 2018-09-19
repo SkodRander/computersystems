@@ -8,6 +8,6 @@
 #ifndef ARRAYFUNCTIONS_H_
 #define ARRAYFUNCTIONS_H_
 
-
+void rotateArrayOnce(int *arraypoint, int sizeOfArray);
 
 #endif /* ARRAYFUNCTIONS_H_ */

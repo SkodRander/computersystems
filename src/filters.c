@@ -2,31 +2,29 @@
 #include "../headerfiles/arrayFunctions.h"
 
 // Feel free to change return statement and arguments
-int lowPassFilter(int *unfilteredArray, int *filteredArray)
+void lowPassFilter(int *unfilteredArray, int *filteredArray, int *pSignal)
 {
-	int tmp = 2*filteredArray[0]-filteredArray[1]+((unfilteredArray[0]-2*unfilteredArray[6]+unfilteredArray[12])/32);
-	return tmp;
+	*pSignal = 2*filteredArray[0]-filteredArray[1]+((unfilteredArray[0]-2*unfilteredArray[6]+unfilteredArray[12])/32);
 }
 
-int highPassFilter(int *lowFilteredArray, int *highFilteredArray)
+void highPassFilter(int *lowFilteredArray, int *highFilteredArray, int *pSignal)
 {
-	int highTmp = highFilteredArray[0]-lowFilteredArray[0]/32+lowFilteredArray[16]-lowFilteredArray[17]+(lowFilteredArray[32])/32;
-	return highTmp;
+	*pSignal = highFilteredArray[0]-lowFilteredArray[0]/32+lowFilteredArray[16]-lowFilteredArray[17]+(lowFilteredArray[32])/32;
+
 
 }
 
-int derivative(int *highpassFilteredArray)
+void derivative(int *highpassFilteredArray, int *pSignal)
 {
-	int tmp = (2*highpassFilteredArray[0]+highpassFilteredArray[1]-highpassFilteredArray[3]-2*highpassFilteredArray[4])/8;
-	return tmp;
+	*pSignal = (2*highpassFilteredArray[0]+highpassFilteredArray[1]-highpassFilteredArray[3]-2*highpassFilteredArray[4])/8;
+
 }
 
 
-int squaring(int value)
+void squaring(int value, int *pSignal)
 {
-	int temp;
-	temp = value*value;
-	return temp;
+	*pSignal = value*value;
+
 }
 
 int movingWindow(int *squaringFiltered)

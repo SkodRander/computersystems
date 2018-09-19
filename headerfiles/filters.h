@@ -2,15 +2,15 @@
 #define FILTERS_H
 
 // Feel free to change return statement and arguments
-int lowPassFilter(int *unfilteredArray, int *filteredArray);
+void lowPassFilter(int *unfilteredArray, int *filteredArray, int *pSignal);
 
 // Implement additional filters
 
-int derivative(int *highpassFiltered);
+void derivative(int *highpassFiltered, int *pSignal);
 
-int highPassFilter(int *lowFilteredArray, int *highFilteredArray);
+void highPassFilter(int *lowFilteredArray, int *highFilteredArray, int *pSignal);
 
-int squaring(int value);
+void squaring(int value, int *pSignal);
 
 int movingWindow(int *squaringFiltered);
 #endif // FILTERS_H
