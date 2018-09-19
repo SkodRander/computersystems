@@ -29,9 +29,8 @@ void peakDetection(QRS_params *params)
 
 }
 
-void isThereAPeak(int *peakCheckArray int *result) {
+void isThereAPeak(int *peakCheckArray, int *result) {
 	if (peakCheckArray[1] > peakCheckArray[0] && peakCheckArray[1] > peakCheckArray[2]) {
-
 		*result = 1;
 	} else {
 		*result = 0;
@@ -91,7 +90,7 @@ void isRRIntervalLargerThanMiss(int rrInterval, int average, int *result) {
 
 
 void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, int peak) {
-	*threshold1 = NPKF + 0.25*((*SPKF)-(*NPKF));
+	*threshold1 = NPKF + ((*SPKF)-(*NPKF))/4;
 	*threshold2 = (*threshold1)/2;
 	*NPKF = 0.125*peak+0.875*(*NPKF);
 }
@@ -107,8 +106,4 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 
 }
 
-void searchback(QRS_params *params){
-	for (int i = 0; i<sizeOf)
-
-}
 
