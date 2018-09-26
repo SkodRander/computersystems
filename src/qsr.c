@@ -131,7 +131,7 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 	params->SPKF = 0.125*peak+0.875*(params->SPKF);
 	int tempRRIntervalCounter = params->RRIntervalCounter;
 	insertRR(params->pRRInterval, &params->sizeOfRRInterval, &params->RRIntervalCounter);
-	rotateArrayOnce(params->RpeaksAllIndex, params->sizeOfAllPeaks);
+	rotateArrayOnce(params->RpeaksAllIndex, params->sizeOfRpeaksAllIndex);
 	params->RpeaksAllIndex[0] = params->RRIntervalCounterTotal;
 	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &tempRRIntervalCounter);
 	params->THRESHOLD1 = params->NPKF + (params->SPKF-params->NPKF)/4;
@@ -158,7 +158,7 @@ void searchback(QRS_params *params){
 			getPulse(params->pRRIntervalAll, params->sizeOfRRIntervalAll);
 			printf("\n");
 			int RR = params->pGlobalCounter[i] - params->RpeaksAllIndex[0];
-			rotateArrayOnce(params->RpeaksAllIndex, params->sizeOfAllPeaks);
+			rotateArrayOnce(params->RpeaksAllIndex, params->sizeOfRpeaksAllIndex);
 			params->RpeaksAllIndex[0] = RR;
 			//printf("%i\n",RR);
 			params->SPKF = 0.125*params->pRPeakArray[0]+0.875*(params->SPKF);
@@ -169,11 +169,12 @@ void searchback(QRS_params *params){
 			params->miss = 1.66*(params->average1);
 			params->THRESHOLD1 = params->NPKF+(params->SPKF-params->NPKF)/4;
 			params->THRESHOLD2 = (params->THRESHOLD1)/2;
-			params->RRIntervalCounter = 0;
+			params->RRIntervalCounter = params->RRIntervalCounterTotal - params->pGlobalCounter[i];
 			peakDetection(params);
 			break;
 		}
 	}
+
 
 }
 
