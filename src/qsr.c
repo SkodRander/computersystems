@@ -97,7 +97,7 @@ void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, i
 void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll){
 	double pulse = 0.0;
 	for (int i = 0; i < sizeOfRRIntervalAll; i++) {
-		printf("%d skooood \n", pRRIntervalAll[i]);
+		printf("%d \n", pRRIntervalAll[i]);
 		pulse += (double) pRRIntervalAll[i];
 
 	}
@@ -117,8 +117,9 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 	rotateArrayOnce(params->pRPeakArray, params->sizeOfRPeakArray);
 	params->pRPeakArray[0] = peak;
 	params->SPKF = 0.125*peak+0.875*(params->SPKF);
+	int tempRRIntervalCounter = params->RRIntervalCounter;
 	insertRR(params->pRRInterval, &params->sizeOfRRInterval, &params->RRIntervalCounter);
-	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &params->RRIntervalAllCounter);
+	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &tempRRIntervalCounter);
 	params->THRESHOLD1 = params->NPKF + 0.25*(params->SPKF-params->NPKF);
 	params->THRESHOLD2 = (params->THRESHOLD1)/2;
 	printf("%i\t%i",params->RRIntervalCounterTotal, peak);
@@ -131,7 +132,7 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 void searchback(QRS_params *params, int average2){
 	for (int i = 0; i< params->sizeOfAllPeaks; i++){
 		if (params->allPeaks[i] > params->THRESHOLD2) {
-			printf("%i\t%i\n",params->RRIntervalCounterTotal, params->allPeaks[i]);
+			//printf("%i\t%i\n",params->RRIntervalCounterTotal, params->allPeaks[i]);
 			getPulse(params->pRRIntervalAll, params->sizeOfRRIntervalAll);
 			rotateArrayOnce(params->pRPeakArray,params->sizeOfRPeakArray);
 			params->pRPeakArray[0] = params->allPeaks[i];
@@ -146,7 +147,7 @@ void searchback(QRS_params *params, int average2){
 	params->SPKF = 0.125*params->pRPeakArray[0]+0.875*(params->SPKF);
 	params->THRESHOLD1 = params->NPKF+0.25*(params->SPKF-params->NPKF);
 	params->THRESHOLD2 = params->THRESHOLD1/2;
-	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &params->RRIntervalAllCounter);
+	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &params->RRIntervalCounter);
 
 }
 

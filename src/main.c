@@ -47,7 +47,7 @@ int main()
 
 	int allPeaks[500] = {};
 	int sizeOfAllPeaks = sizeof(allPeaks)/sizeof(int);
-	int RRIntervalAll[300] = {};
+	int RRIntervalAll[300] = {150, 150, 150, 150, 150, 150, 150, 150};
 
 
 	int sizeOfPeakArrays = 8;
