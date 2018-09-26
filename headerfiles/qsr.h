@@ -11,27 +11,15 @@ typedef struct QRS_params
    int NPKF; 
    int THRESHOLD1;
    int THRESHOLD2;
-   int *pPeakCheckArray;
-   int *pRRInterval;
-   int *pRRIntervalAll;
-   int sizeOfRRInterval;
-   int sizeOfRRIntervalAll;
-   int RRIntervalCounter;
-   int RRIntervalAllCounter;
-   int *allPeaks;
-   int sizeOfAllPeaks;
-   int *pRPeakArray;
-   int sizeOfRPeakArray;
-   int RRIntervalCounterTotal;
-   int average2;
-   int average1;
-   int low;
-   int high;
-   int miss;
-   int *pGlobalCounter;
-   int sizeOfGlobalCounter;
-   int *RpeaksAllIndex;
-   int sizeOfRpeaksAllIndex;
+   float low;
+   float high;
+   float miss;
+   int point;
+   int lastPoint;
+   int nextPoint;
+   int count;
+   int lastPeak;
+   int currentRR;
    // Add parameters that are missing
    // or of use to you
    
@@ -40,16 +28,17 @@ typedef struct QRS_params
 // Feel free to change and add methods
 void peakDetection(QRS_params *params);
 
-void isThereAPeak(int *peakCheckArray, int *result, int *allPeaks, int *sizeOfAllPeaks);
+void isThereAPeak(QRS_params *params, int *result);
 
-void isItRPeak(int peak, int *threshold1, int *result);
+void isItRPeak(QRS_params *params, int *result);
 void insertRR(int *pRRInterval, int *sizeOfRRInterval, int RRIntervalCounter);
 void calculateAverage2(int *pRRInterval, int sizeOfRRInterval, int *result);
-void isRRIntervalBetweenLowAndHigh(int rrInterval, int low, int high, int *result);
-void isRRIntervalLargerThanMiss(int rrInterval, int miss, int *result);
-void noicePeakDetected(int *threshold1, int *threshold2, int *NPKF, int *SPKF, int peak);
-void regularRPeakDetected(QRS_params *params, int peak);
+void isRRIntervalBetweenLowAndHigh(QRS_params *params, int *result);
+void isRRIntervalLargerThanMiss(QRS_params *params, int *result);
+void noicePeakDetected(QRS_params *params);
+void regularRPeakDetected(QRS_params *params);
 void searchback(QRS_params *params);
 void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll);
+void updateParameters(QRS_params *params, int whatAverage);
 
 #endif // QSR_H

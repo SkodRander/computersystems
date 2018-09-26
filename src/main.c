@@ -42,8 +42,7 @@ int main()
 	int rPeakArray[300] = {};
 	int sizeOfRPeakArray = sizeof(rPeakArray)/sizeof(int);
 	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
-	int rCounter = 0;
-	int *pRCounter = rCounter;
+
 
 	int allPeaks[500] = {};
 	int sizeOfAllPeaks = sizeof(allPeaks)/sizeof(int);
@@ -70,33 +69,18 @@ int main()
 	QRS_params qrsParams = {
 	.SPKF = 0,
 	.NPKF = 0,
-	.THRESHOLD1 =0,
-	.THRESHOLD2 = 0,
-	.RRIntervalCounter = 0,
-	.sizeOfRRInterval = sizeOfRRInterval,
-	.sizeOfRRIntervalAll = 8,
-	.RRIntervalAllCounter = 0,
-	.pRPeakArray = rPeakArray,
-	.sizeOfRPeakArray = sizeOfRPeakArray,
-	.pRRInterval = RRInterval,
-	.pRRIntervalAll = RRIntervalAll,
-	.pPeakCheckArray= movingWindowFiltered,
-	.allPeaks = allPeaks,
-	.sizeOfAllPeaks = sizeOfAllPeaks,
-	.RRIntervalCounterTotal = 0,
-	.average1 = average1,
-	.average2 = average2,
-	.low = low,
-	.high = high,
-	.miss = miss,
-	.pGlobalCounter = globalCounter,
-	.sizeOfGlobalCounter = sizeOfGlobalCounter,
-	.RpeaksAllIndex = RpeaksAllIndex,
-	.sizeOfRpeaksAllIndex = sizeOfRpeaksAllIndex};
+	.THRESHOLD1 =2000,
+	.THRESHOLD2 = 1000,
+	.count = 0,
+	.point = 0,
+	.lastPoint = 1000,
+	.nextPoint = 0,
+	.low = 0,
+	.high = 0,
+	.miss = 0,
+	.currentRR = 0,
+	.lastPeak = 0};
 
-
-	calculateAverage2(qrsParams.pRRInterval, qrsParams.sizeOfRRInterval, &qrsParams.average2);
-	calculateAverage2(qrsParams.pRRIntervalAll, qrsParams.sizeOfRRIntervalAll, &qrsParams.average1);
 
 
 	while (1)
@@ -130,10 +114,12 @@ int main()
 		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
 		pMovingWindowFiltered[0] = signal;
 
+		qrsParams.nextPoint = signal;
 	    peakDetection(&qrsParams); // Perform Peak Detection
+		qrsParams.count++;
+		qrsParams.lastPoint = qrsParams.point;
+		qrsParams.point = qrsParams.nextPoint;
 
-	    qrsParams.RRIntervalCounter++;
-	    qrsParams.RRIntervalCounterTotal++;
 
 
 	}
