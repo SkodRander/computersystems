@@ -17,6 +17,14 @@ void rotateArrayOnce(int *arraypoint, int sizeOfArray)
 
 }
 
+void rotateArrayOnceBackwards(int *arraypoint, int sizeOfArray)
+{
+	for(int i = 0; i < sizeOfArray-1 ; i--){
+		arraypoint[i] = arraypoint[i+1];
+	}
+
+}
+
 void arrayInsert(int *pArray, int sizeOfArray, int *pInsertionValue) {
 	rotateArrayOnce(pArray,sizeOfArray);
 	pArray[0] = *pInsertionValue;

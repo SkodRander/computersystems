@@ -48,9 +48,19 @@ int main()
 	int allPeaks[500] = {};
 	int sizeOfAllPeaks = sizeof(allPeaks)/sizeof(int);
 	int RRIntervalAll[300] = {150, 150, 150, 150, 150, 150, 150, 150};
+	int globalCounter[300] = {};
+	int sizeOfGlobalCounter = sizeof(globalCounter)/sizeof(int);
+	int RpeaksAllIndex[300] = {};
+	int sizeOfRpeaksAllIndex = sizeof(RpeaksAllIndex)/sizeof(int);
 
 
 	int sizeOfPeakArrays = 8;
+	int average2 = 0;
+	int average1 = 0;
+	int low = 0;
+	int high= 0;
+	int miss = 0;
+
 
 
 
@@ -73,8 +83,20 @@ int main()
 	.pPeakCheckArray= movingWindowFiltered,
 	.allPeaks = allPeaks,
 	.sizeOfAllPeaks = sizeOfAllPeaks,
-	.RRIntervalCounterTotal = 0};
+	.RRIntervalCounterTotal = 0,
+	.average1 = average1,
+	.average2 = average2,
+	.low = low,
+	.high = high,
+	.miss = miss,
+	.pGlobalCounter = globalCounter,
+	.sizeOfGlobalCounter = sizeOfGlobalCounter,
+	.RpeaksAllIndex = RpeaksAllIndex,
+	.sizeOfRpeaksAllIndex = sizeOfRpeaksAllIndex};
 
+
+	calculateAverage2(qrsParams.pRRInterval, qrsParams.sizeOfRRInterval, &qrsParams.average2);
+	calculateAverage2(qrsParams.pRRIntervalAll, qrsParams.sizeOfRRIntervalAll, &qrsParams.average1);
 
 
 	while (1)
