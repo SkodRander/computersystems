@@ -43,7 +43,7 @@ void peakDetection(QRS_params *params);
 void isThereAPeak(int *peakCheckArray, int *result, int *allPeaks, int *sizeOfAllPeaks);
 
 void isItRPeak(int peak, int *threshold1, int *result);
-void insertRR(int *pRRInterval, int *sizeOfRRInterval, int *RRIntervalCounter);
+void insertRR(int *pRRInterval, int *sizeOfRRInterval, int RRIntervalCounter);
 void calculateAverage2(int *pRRInterval, int sizeOfRRInterval, int *result);
 void isRRIntervalBetweenLowAndHigh(int rrInterval, int low, int high, int *result);
 void isRRIntervalLargerThanMiss(int rrInterval, int miss, int *result);

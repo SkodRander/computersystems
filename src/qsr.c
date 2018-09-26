@@ -43,6 +43,27 @@ void peakDetection(QRS_params *params)
 
 void isThereAPeak(int *peakCheckArray, int *result, int *allPeaks, int *sizeOfAllPeaks) {
 	if (peakCheckArray[1] > peakCheckArray[0] && peakCheckArray[1] > peakCheckArray[2]) {
+		/*if (peakCheckArray[1] == peakCheckArray[2]) {
+			int testForPeak = 1;
+			int index = 3;
+			while (testForPeak) {
+				if (peakCheckArray[1] != peakCheckArray[index]) {
+					testForPeak = 0;
+				} else {
+					index++;
+				}
+			}
+			if (peakCheckArray[1] < peakCheckArray[index]) {
+				*result = 0;
+			}else if(peakCheckArray[1] != allPeaks[0]) {
+				arrayInsert(allPeaks, *sizeOfAllPeaks, &peakCheckArray[1]);
+				*result = 1;
+			} else {
+				*result = 2;
+			}
+
+		}*/
+
 		if(peakCheckArray[1] != allPeaks[0]) {
 			arrayInsert(allPeaks, *sizeOfAllPeaks, &peakCheckArray[1]);
 			*result = 1;
@@ -64,10 +85,9 @@ void isItRPeak(int peak, int *threshold1, int *result) {
 	}
 }
 
-void insertRR(int *pRRInterval, int *sizeOfRRInterval, int *RRIntervalCounter) {
+void insertRR(int *pRRInterval, int *sizeOfRRInterval, int RRIntervalCounter) {
 	rotateArrayOnce(pRRInterval,*sizeOfRRInterval);
-	pRRInterval[0] = *RRIntervalCounter;
-	*RRIntervalCounter = 0;
+	pRRInterval[0] = RRIntervalCounter;
 
 }
 
@@ -129,14 +149,13 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 	rotateArrayOnce(params->pRPeakArray, params->sizeOfRPeakArray);
 	params->pRPeakArray[0] = params->RRIntervalCounterTotal;
 	params->SPKF = 0.125*peak+0.875*(params->SPKF);
-	int tempRRIntervalCounter = params->RRIntervalCounter;
-	insertRR(params->pRRInterval, &params->sizeOfRRInterval, &params->RRIntervalCounter);
+	insertRR(params->pRRInterval, &params->sizeOfRRInterval, params->RRIntervalCounter);
 	rotateArrayOnce(params->RpeaksAllIndex, params->sizeOfRpeaksAllIndex);
 	params->RpeaksAllIndex[0] = params->RRIntervalCounterTotal;
-	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &tempRRIntervalCounter);
+	insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, params->RRIntervalCounter);
 	params->THRESHOLD1 = params->NPKF + (params->SPKF-params->NPKF)/4;
 	params->THRESHOLD2 = (params->THRESHOLD1)/2;
-	printf("%i\t%i",params->RRIntervalCounterTotal, peak);
+	printf("%i\t%i\tRLOW=%i",params->RRIntervalCounterTotal, peak,params->RRIntervalCounter);
 	getPulse(params->pRRIntervalAll, params->sizeOfRRIntervalAll);
 	printf("\n");
 	calculateAverage2(params->pRRInterval, params->sizeOfRRInterval, &params->average2);
@@ -144,6 +163,7 @@ void regularRPeakDetected(QRS_params *params, int peak) {
 	params->low = 0.92*(params->average2);
 	params->high = 1.16*(params->average2);
 	params->miss = 1.66*(params->average2);
+	params->RRIntervalCounter = 0;
 
 }
 
@@ -162,7 +182,7 @@ void searchback(QRS_params *params){
 			params->RpeaksAllIndex[0] = RR;
 			//printf("%i\n",RR);
 			params->SPKF = 0.125*params->pRPeakArray[0]+0.875*(params->SPKF);
-			insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, &RR);
+			insertRR(params->pRRIntervalAll, &params->sizeOfRRIntervalAll, RR);
 			params->average1 = arrayAverage(params->pRRIntervalAll,params->sizeOfRRIntervalAll);
 			params->low = 0.92*(params->average1);
 			params->high = 1.16*(params->average1);
