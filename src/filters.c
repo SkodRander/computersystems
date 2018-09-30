@@ -32,9 +32,9 @@ int movingWindow(int *squaringFiltered)
 	int temp = 0;
 	int N = 30;
 	for(int i = 0; i < N; i++) {
-		temp = temp + squaringFiltered[0+(N-(i+1))];
+		temp = temp + (squaringFiltered[0+(N-(i+1))]/N);
 	}
-	temp = temp/N;
+	//temp = temp/N;
 	return temp;
 }
 

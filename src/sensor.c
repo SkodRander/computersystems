@@ -14,8 +14,9 @@ int getNextData(FILE *file, int* eofChecker)
 
 FILE* openfile(const char* filename)
 {
-	char path[] = "./Datafiles/";
+	char path[] = "Datafiles/";
 	char *mode = "r";
-	FILE *file = fopen(strcat(path, filename), mode); // Replace NULL with the actual file object
+	char* filenameConc = strcat(path,filename);
+	FILE *file = fopen(filenameConc, mode); // Replace NULL with the actual file object
    	return file;
 }

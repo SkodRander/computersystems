@@ -6,14 +6,14 @@
 #define allPeaksSize 100
 #define peakTimeSize 100
 #define rPeaksSize 100
-#define rrIntervalsSize 100
+#define rrIntervalsSize 8
 
 
 int allPeaks[allPeaksSize] = {};
 int peakTime[peakTimeSize] = {};
 int rPeaks[rPeaksSize] = {};
-int rrIntervals[rrIntervalsSize] = {};
-int rrIntervalsAll[rrIntervalsSize] ={};
+int rrIntervals[rrIntervalsSize] = {150, 150, 150, 150, 150, 150, 150, 150};
+int rrIntervalsAll[rrIntervalsSize] ={150, 150, 150, 150, 150, 150, 150, 150};
 
 void peakDetection(QRS_params *params)
 {
@@ -45,7 +45,6 @@ void peakDetection(QRS_params *params)
 		return;
 	}
 	params->missedRR++;
-	printf("%i\n",params->missedRR);
 	if(params->missedRR > 4) {
 		printf("Warning! More than 4 successive RR intervals is not between RR-low and RR-high\n");
 	}
@@ -69,7 +68,6 @@ void isThereAPeak(QRS_params *params, int *result) {
 void isItRPeak(QRS_params *params, int *result) {
 	if (params->point > params->THRESHOLD1) {
 		*result = 1;
-		checkIfPeakUnder2000(params->point);
 	} else {
 		*result = 0;
 	}
@@ -143,7 +141,7 @@ void regularRPeakDetected(QRS_params *params) {
 	params->lastPeak = params->count;
 	updateParameters(params, 1);
 	getPulse();
-	//checkIfPeakUnder2000(params->point);
+	checkIfPeakUnder2000(params->point);
 	printf("\n");
 
 }
@@ -156,7 +154,7 @@ void insertRR(int *pRRInterval, int *sizeOfRRInterval, int RRIntervalCounter) {
 
 void checkIfPeakUnder2000(int peak) {
 	if (peak < 2000) {
-		printf("Warning! RPeak is under 2000!\n");
+		printf("\tWarning! RPeak is under 2000!");
 	}
 }
 
@@ -168,14 +166,14 @@ void searchback(QRS_params *params){
 			rotateArrayOnce(rPeaks,rPeaksSize);
 			rPeaks[0] = allPeaks[i];
 			params->currentRR = peakTime[i] -params->lastPeak;
-			printf("%i\t%i", peakTime[i], params->point);
+			printf("%i\t%i", peakTime[i], rPeaks[0]);
 			rotateArrayOnce(rrIntervalsAll, rrIntervalsSize);
 			rrIntervalsAll[0] = params->currentRR;
 			params->lastPeak = peakTime[i];
-			params->SPKF = 0.125*params->point+0.875*(params->SPKF);
+			params->SPKF = 0.125*(rPeaks[0])+0.875*(params->SPKF);
 			updateParameters(params, 2);
 			getPulse();
-			//checkIfPeakUnder2000(params->point);
+			checkIfPeakUnder2000(rPeaks[0]);
 			printf("\n");
 			//peakDetection(params);
 			break;

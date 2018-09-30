@@ -14,7 +14,7 @@ int main()
 {	
     QRS_params qsr_params;       // Instance of the made avaiable through: #include "qsr.h"
 	FILE *file;                  // Pointer to a file object
-	file = openfile("ECG.txt");
+	file = openfile("ECG900K.txt");
 	int unfiltered[13] = {};
 	int *pUnfiltered = unfiltered;
 	int sizeOfUnfiltered = sizeof(unfiltered)/sizeof(int);
@@ -69,8 +69,8 @@ int main()
 	QRS_params qrsParams = {
 	.SPKF = 0,
 	.NPKF = 0,
-	.THRESHOLD1 =2000,
-	.THRESHOLD2 = 1000,
+	.THRESHOLD1 =0,
+	.THRESHOLD2 = 0,
 	.count = 0,
 	.point = 0,
 	.lastPoint = 1000,
@@ -81,8 +81,6 @@ int main()
 	.currentRR = 0,
 	.lastPeak = 0,
 	.missedRR = 0};
-
-
 
 	while (1)
 	{
@@ -121,13 +119,10 @@ int main()
 		qrsParams.lastPoint = qrsParams.point;
 		qrsParams.point = qrsParams.nextPoint;
 
-
-
 	}
 
 
                                 
-
 
 	return 0;
 }
