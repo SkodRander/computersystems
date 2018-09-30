@@ -79,7 +79,8 @@ int main()
 	.high = 0,
 	.miss = 0,
 	.currentRR = 0,
-	.lastPeak = 0};
+	.lastPeak = 0,
+	.missedRR = 0};
 
 
 

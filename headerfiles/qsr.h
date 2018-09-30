@@ -20,6 +20,7 @@ typedef struct QRS_params
    int count;
    int lastPeak;
    int currentRR;
+   int missedRR;
    // Add parameters that are missing
    // or of use to you
    
@@ -38,7 +39,8 @@ void isRRIntervalLargerThanMiss(QRS_params *params, int *result);
 void noicePeakDetected(QRS_params *params);
 void regularRPeakDetected(QRS_params *params);
 void searchback(QRS_params *params);
-void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll);
+void getPulse();
 void updateParameters(QRS_params *params, int whatAverage);
+void checkIfPeakUnder2000(int peak);
 
 #endif // QSR_H

@@ -40,8 +40,14 @@ void peakDetection(QRS_params *params)
 	//calculateAverage2(params->pRRInterval, params->sizeOfRRInterval, &params->THRESHOLD1, &average2);
 	isRRIntervalBetweenLowAndHigh(params, &result);
 	if (result == 1) {
+		params->missedRR = 0;
 		regularRPeakDetected(params);
 		return;
+	}
+	params->missedRR++;
+	printf("%i\n",params->missedRR);
+	if(params->missedRR > 4) {
+		printf("Warning! More than 4 successive RR intervals is not between RR-low and RR-high\n");
 	}
 
 	isRRIntervalLargerThanMiss(params, &result);
@@ -63,6 +69,7 @@ void isThereAPeak(QRS_params *params, int *result) {
 void isItRPeak(QRS_params *params, int *result) {
 	if (params->point > params->THRESHOLD1) {
 		*result = 1;
+		checkIfPeakUnder2000(params->point);
 	} else {
 		*result = 0;
 	}
@@ -106,11 +113,11 @@ void noicePeakDetected(QRS_params *params) {
 	params->THRESHOLD2 = 0.50*(params->THRESHOLD1);
 }
 
-void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll){
+void getPulse(){
 	double pulse = 0.0;
-	for (int i = 0; i < sizeOfRRIntervalAll; i++) {
+	for (int i = 0; i < rrIntervalsSize; i++) {
 		//printf("%d \n", pRRIntervalAll[i]);
-		pulse += (double) pRRIntervalAll[i];
+		pulse += (double) rrIntervalsAll[i];
 
 	}
 	pulse = pulse/250.0;
@@ -125,7 +132,7 @@ void getPulse(int *pRRIntervalAll, int sizeOfRRIntervalAll){
 }
 
 void regularRPeakDetected(QRS_params *params) {
-	printf("%i\t%i\n", params->count, params->point);
+	printf("%i\t%i", params->count, params->point);
 	rotateArrayOnce(rPeaks, rPeaksSize);
 	rPeaks[0] = params->point;
 	params->SPKF = 0.125*params->point+0.875*(params->SPKF);
@@ -135,6 +142,9 @@ void regularRPeakDetected(QRS_params *params) {
 	rrIntervalsAll[0] = params->currentRR;
 	params->lastPeak = params->count;
 	updateParameters(params, 1);
+	getPulse();
+	//checkIfPeakUnder2000(params->point);
+	printf("\n");
 
 }
 
@@ -142,6 +152,12 @@ void insertRR(int *pRRInterval, int *sizeOfRRInterval, int RRIntervalCounter) {
 	rotateArrayOnce(pRRInterval,*sizeOfRRInterval);
 	pRRInterval[0] = RRIntervalCounter;
 
+}
+
+void checkIfPeakUnder2000(int peak) {
+	if (peak < 2000) {
+		printf("Warning! RPeak is under 2000!\n");
+	}
 }
 
 
@@ -152,13 +168,15 @@ void searchback(QRS_params *params){
 			rotateArrayOnce(rPeaks,rPeaksSize);
 			rPeaks[0] = allPeaks[i];
 			params->currentRR = peakTime[i] -params->lastPeak;
-			printf("SEARCHBACK %i\t%i\n", peakTime[i], params->point);
+			printf("%i\t%i", peakTime[i], params->point);
 			rotateArrayOnce(rrIntervalsAll, rrIntervalsSize);
 			rrIntervalsAll[0] = params->currentRR;
 			params->lastPeak = peakTime[i];
 			params->SPKF = 0.125*params->point+0.875*(params->SPKF);
 			updateParameters(params, 2);
-
+			getPulse();
+			//checkIfPeakUnder2000(params->point);
+			printf("\n");
 			//peakDetection(params);
 			break;
 		}
