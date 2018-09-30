@@ -135,8 +135,8 @@ void getPulse(){
 
 void regularRPeakDetected(QRS_params *params) {
 	printf("%i\t%i", params->count, params->point);
-	rotateArrayOnce(rPeaks, rPeaksSize);
-	rPeaks[0] = params->point;
+	//rotateArrayOnce(rPeaks, rPeaksSize);
+	//rPeaks[0] = params->point;
 	params->SPKF = 0.125*params->point+0.875*(params->SPKF);
 	rotateArrayOnce(rrIntervals, rrIntervalsSize);
 	rrIntervals[0] = params->currentRR;
@@ -167,17 +167,17 @@ void searchback(QRS_params *params){
 	//rotateArrayOnceBackwards(params->allPeaks, params->sizeOfAllPeaks);
 	for (int i = 1; i< allPeaksSize; i++){
 		if (allPeaks[i] > params->THRESHOLD2) {
-			rotateArrayOnce(rPeaks,rPeaksSize);
-			rPeaks[0] = allPeaks[i];
+			//rotateArrayOnce(rPeaks,rPeaksSize);
+			//rPeaks[0] = allPeaks[i];
 			params->currentRR = peakTime[i] -params->lastPeak;
-			printf("%i\t%i", peakTime[i], rPeaks[0]);
+			printf("%i\t%i", peakTime[i], allPeaks[i]);
 			rotateArrayOnce(rrIntervalsAll, rrIntervalsSize);
 			rrIntervalsAll[0] = params->currentRR;
 			params->lastPeak = peakTime[i];
-			params->SPKF = 0.125*(rPeaks[0])+0.875*(params->SPKF);
+			params->SPKF = 0.125*(allPeaks[i])+0.875*(params->SPKF);
 			updateParameters(params, 2);
 			getPulse();
-			checkIfPeakUnder2000(rPeaks[0]);
+			checkIfPeakUnder2000(allPeaks[i]);
 			printf("\n");
 			//peakDetection(params);
 			break;
