@@ -12,8 +12,8 @@
 int allPeaks[allPeaksSize] = {};
 int peakTime[peakTimeSize] = {};
 int rPeaks[rPeaksSize] = {};
-int rrIntervals[rrIntervalsSize] = {150, 150, 150, 150, 150, 150, 150, 150};
-int rrIntervalsAll[rrIntervalsSize] ={150, 150, 150, 150, 150, 150, 150, 150};
+int rrIntervals[rrIntervalsSize] = {};
+int rrIntervalsAll[rrIntervalsSize] ={};
 
 void peakDetection(QRS_params *params)
 {
@@ -113,14 +113,18 @@ void noicePeakDetected(QRS_params *params) {
 
 void getPulse(){
 	double pulse = 0.0;
+	double sum_size = 0.0;
 	for (int i = 0; i < rrIntervalsSize; i++) {
 		//printf("%d \n", pRRIntervalAll[i]);
-		pulse += (double) rrIntervalsAll[i];
+		if (rrIntervalsAll[i] != 0) {
+			pulse += (double) rrIntervalsAll[i];
+			sum_size += 1.0;
+		}
 
 	}
 	pulse = pulse/250.0;
 	//if (pulse == 0.0){printf("Pulse is 0"); return;}
-	pulse = 8.0/pulse;
+	pulse = sum_size/pulse;
 	pulse = pulse*60.0;
 	printf("\tPulse: %f", pulse);
 

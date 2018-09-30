@@ -34,7 +34,7 @@ int movingWindow(int *squaringFiltered)
 	for(int i = 0; i < N; i++) {
 		temp = temp + (squaringFiltered[0+(N-(i+1))]/N);
 	}
-	//temp = temp/N;
+
 	return temp;
 }
 

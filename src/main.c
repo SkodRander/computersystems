@@ -3,6 +3,8 @@
 #include "../headerfiles/qsr.h"
 #include "../headerfiles/arrayFunctions.h"
 
+
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,9 +14,10 @@
 
 int main()
 {	
-    QRS_params qsr_params;       // Instance of the made avaiable through: #include "qsr.h"
+	clock_t start, end;
+	double cpu_time_used;
 	FILE *file;                  // Pointer to a file object
-	file = openfile("ECG900K.txt");
+	file = openfile("ECG.txt");
 	int unfiltered[13] = {};
 	int *pUnfiltered = unfiltered;
 	int sizeOfUnfiltered = sizeof(unfiltered)/sizeof(int);
@@ -23,12 +26,12 @@ int main()
 	int *pLowfiltered = lowfiltered;
 	int sizeOfLowfiltered = sizeof(lowfiltered)/sizeof(int);
 
-	int highFiltered[33] = {};
+	int highFiltered[5] = {};
 	int *pHighFiltered = highFiltered;
 	int sizeOfHighFiltered = sizeof(highFiltered)/sizeof(int);
 
 
-	int squaredFiltered[33] = {};
+	int squaredFiltered[31] = {};
 	int *pSquaredFiltered = squaredFiltered;
 	int sizeOfSquared = sizeof(squaredFiltered)/sizeof(int);
 
@@ -37,35 +40,11 @@ int main()
 	int sizeOfMovingWindow = sizeof(movingWindowFiltered)/sizeof(int);
 
 
-	int RRInterval[300] = {150, 150, 150, 150, 150, 150, 150, 150};
-	int peakCheckArray[300] = {};
-	int rPeakArray[300] = {};
-	int sizeOfRPeakArray = sizeof(rPeakArray)/sizeof(int);
-	int sizeOfRRInterval = sizeof(RRInterval)/sizeof(int);
-
-
-	int allPeaks[500] = {};
-	int sizeOfAllPeaks = sizeof(allPeaks)/sizeof(int);
-	int RRIntervalAll[300] = {150, 150, 150, 150, 150, 150, 150, 150};
-	int globalCounter[300] = {};
-	int sizeOfGlobalCounter = sizeof(globalCounter)/sizeof(int);
-	int RpeaksAllIndex[300] = {};
-	int sizeOfRpeaksAllIndex = sizeof(RpeaksAllIndex)/sizeof(int);
-
-
-	int sizeOfPeakArrays = 8;
-	int average2 = 0;
-	int average1 = 0;
-	int low = 0;
-	int high= 0;
-	int miss = 0;
 
 
 
-
-	int signal, eofChecker, peakCounter, RPeakCounter;
+	int signal, eofChecker;
 	int *pSignal = &signal;
-
 	QRS_params qrsParams = {
 	.SPKF = 0,
 	.NPKF = 0,
@@ -82,6 +61,13 @@ int main()
 	.lastPeak = 0,
 	.missedRR = 0};
 
+	double lowPassFilterTime = 0;
+	double highPassFilterTime = 0;
+	double derivativeTime = 0;
+	double squaringTime = 0;
+	double movingWindowTime = 0;
+	double peakDetectionTime = 0;
+
 	while (1)
 	{
 
@@ -93,36 +79,60 @@ int main()
 		rotateArrayOnce(pUnfiltered,sizeOfUnfiltered);
 		unfiltered[0] = signal;
 
-
+		//start = clock();
 		lowPassFilter(pUnfiltered, pLowfiltered, pSignal);            // Filter Data
 		rotateArrayOnce(pLowfiltered, sizeOfLowfiltered);
 		lowfiltered[0] = signal;
+		//end = clock();
+		//lowPassFilterTime += ((double) (end - start) / CLOCKS_PER_SEC);
 
-
+		//start = clock();
 		highPassFilter(pLowfiltered,pHighFiltered, pSignal);
 		rotateArrayOnce(pHighFiltered,sizeOfHighFiltered);
 		pHighFiltered[0] = signal;
+		//end = clock();
+		//highPassFilterTime += ((double) (end - start) / CLOCKS_PER_SEC);
 
+		//start = clock();
 		derivative(highFiltered, pSignal);
+		//end = clock();
+		//derivativeTime += ((double) (end - start) / CLOCKS_PER_SEC);
 
+		//start = clock();
 		squaring(signal, pSignal);
 		rotateArrayOnce(pSquaredFiltered, sizeOfSquared);
 		pSquaredFiltered[0] = signal;
+		//end = clock();
+		//squaringTime += ((double) (end - start) / CLOCKS_PER_SEC);
 
+		//start = clock();
 		signal = movingWindow(pSquaredFiltered);
 		rotateArrayOnce(pMovingWindowFiltered, sizeOfMovingWindow);
 		pMovingWindowFiltered[0] = signal;
+		//end = clock();
+		//movingWindowTime += ((double) (end - start) / CLOCKS_PER_SEC);
 
+		//start = clock();
 		qrsParams.nextPoint = signal;
 	    peakDetection(&qrsParams); // Perform Peak Detection
 		qrsParams.count++;
 		qrsParams.lastPoint = qrsParams.point;
 		qrsParams.point = qrsParams.nextPoint;
+		//end = clock();
+		//speakDetectionTime += ((double) (end - start) / CLOCKS_PER_SEC);
 
 	}
 
 
-                                
+/*
+	printf("Time used Lowpass: %f\n", lowPassFilterTime);
+	printf("Time used HighPass: %f\n", highPassFilterTime);
+	printf("Time used Derivative: %f\n", derivativeTime);
+	printf("Time used Squaring: %f\n", squaringTime);
+	printf("Time used MovingWindow: %f\n", movingWindowTime);
+	printf("Time used PeakDetection: %f\n", peakDetectionTime);*/
+
+
 
 	return 0;
 }
