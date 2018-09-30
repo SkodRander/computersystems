@@ -14,8 +14,8 @@
 
 int main()
 {	
-	clock_t start, end;
-	double cpu_time_used;
+	//clock_t start, end;
+	//double cpu_time_used;
 	FILE *file;                  // Pointer to a file object
 	file = openfile("ECG.txt");
 	int unfiltered[13] = {};
@@ -67,6 +67,7 @@ int main()
 	double squaringTime = 0;
 	double movingWindowTime = 0;
 	double peakDetectionTime = 0;
+
 
 	while (1)
 	{
@@ -120,7 +121,6 @@ int main()
 		qrsParams.point = qrsParams.nextPoint;
 		//end = clock();
 		//speakDetectionTime += ((double) (end - start) / CLOCKS_PER_SEC);
-
 	}
 
 
@@ -133,6 +133,6 @@ int main()
 	printf("Time used PeakDetection: %f\n", peakDetectionTime);*/
 
 
-
+	printf("The program is finished");
 	return 0;
 }

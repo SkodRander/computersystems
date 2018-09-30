@@ -12,8 +12,8 @@
 int allPeaks[allPeaksSize] = {};
 int peakTime[peakTimeSize] = {};
 int rPeaks[rPeaksSize] = {};
-int rrIntervals[rrIntervalsSize] = {};
-int rrIntervalsAll[rrIntervalsSize] ={};
+int rrIntervals[rrIntervalsSize] = {150, 150, 150, 150, 150, 150, 150, 150};
+int rrIntervalsAll[rrIntervalsSize] ={150, 150, 150, 150, 150, 150, 150, 150};
 
 void peakDetection(QRS_params *params)
 {
@@ -112,18 +112,18 @@ void noicePeakDetected(QRS_params *params) {
 }
 
 void getPulse(){
-	double pulse = 0.0;
-	double sum_size = 0.0;
+	float pulse = 0.0;
+	float sum_size = 0.0;
 	for (int i = 0; i < rrIntervalsSize; i++) {
 		//printf("%d \n", pRRIntervalAll[i]);
 		if (rrIntervalsAll[i] != 0) {
-			pulse += (double) rrIntervalsAll[i];
+			pulse += (float) rrIntervalsAll[i];
 			sum_size += 1.0;
 		}
 
 	}
 	pulse = pulse/250.0;
-	//if (pulse == 0.0){printf("Pulse is 0"); return;}
+	//if (pulse == 0.0){printf("Pulse is 0");65 return;}
 	pulse = sum_size/pulse;
 	pulse = pulse*60.0;
 	printf("\tPulse: %f", pulse);
@@ -134,7 +134,7 @@ void getPulse(){
 }
 
 void regularRPeakDetected(QRS_params *params) {
-	printf("%i\t%i", params->count, params->point);
+	printf("Time of R-Peak:\t%i\tValue of R-Peak: %i", params->count, params->point);
 	//rotateArrayOnce(rPeaks, rPeaksSize);
 	//rPeaks[0] = params->point;
 	params->SPKF = 0.125*params->point+0.875*(params->SPKF);
@@ -170,7 +170,7 @@ void searchback(QRS_params *params){
 			//rotateArrayOnce(rPeaks,rPeaksSize);
 			//rPeaks[0] = allPeaks[i];
 			params->currentRR = peakTime[i] -params->lastPeak;
-			printf("%i\t%i", peakTime[i], allPeaks[i]);
+			printf("Time of R-Peak:\t%i\tValue of R-Peak: %i", peakTime[i], allPeaks[i]);
 			rotateArrayOnce(rrIntervalsAll, rrIntervalsSize);
 			rrIntervalsAll[0] = params->currentRR;
 			params->lastPeak = peakTime[i];
