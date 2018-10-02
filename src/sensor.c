@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//Gets next data from a file
 int getNextData(FILE *file, int* eofChecker)
 {
 	int value;
@@ -12,6 +13,7 @@ int getNextData(FILE *file, int* eofChecker)
 
 }
 
+//Opens a file
 FILE* openfile(const char* filename)
 {
 	char path[] = "Datafiles/";

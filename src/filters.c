@@ -1,7 +1,7 @@
 #include "../headerfiles/filters.h"
 #include "../headerfiles/arrayFunctions.h"
 
-// Feel free to change return statement and arguments
+
 void lowPassFilter(int *unfilteredArray, int *filteredArray, int *pSignal)
 {
 	*pSignal = 2*filteredArray[0]-filteredArray[1]+((unfilteredArray[0]-2*unfilteredArray[6]+unfilteredArray[12])/32);
